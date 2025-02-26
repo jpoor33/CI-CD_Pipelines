@@ -13,9 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Test
+      - name: Install Dependencies
         run: |
           npm install
+      - name: Start Server
+        run: |
+          npm start &
+      - name: Wait for Server
+        run: |
+          sleep 15
+      - name: Test
+        run: |
           npm run test
 
       - name: Deploy
@@ -25,5 +33,3 @@ jobs:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$deploy_url"
-
-# Adding comment 
